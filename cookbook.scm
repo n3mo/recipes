@@ -1,169 +1,277 @@
-#! /usr/local/bin/csi -s
-;;; cookbook.scm --- Cookbook generator
+;;; This file contains an sexp-based recipe database. The entire
+;;; database is written as a list, with one recipe per list
+;;; entry. Each recipe, in turn, is an alist containing the follow
+;;; keys:
+;;; 
+;;;     title
+;;;     cat (category)
+;;;     ing (ingredients)
+;;;     preptime
+;;;     baketime
+;;;     baketemp
+;;;     portion
+;;;     calories
+;;;     prep
+;;;     hint
 
-;; Copyright 2013, Nicholas M. Van Horn
+(define cookbook
+'(
+  ;; Recipe
+  (("title" . "Spicy Asian White Bean Dip")
+   ("cat" . "Appetizers")
+   ("preptime" . "10 minutes")
+   ("baketime" . "")
+   ("baketemp" . "")
+   ("portion" . "3-4")
+   ("calories" . "")
+   ("ing" . ((("title" . "")
+	      ("ing" . (
+			("1" "15oz can of white beans (rinsed)")
+			("1 Tbs" "Olive oil")
+			("1 tsp" "Sesame oil")
+			("2 tsp" "Soy sauce (or to taste)")
+			("2 Tbs" "Sriracha")
+			("1" "Garlic clove")
+			("1/2 tsp" "Curry powder")
+			("1/4 cup" "Water")
+			("1 Tbs" "Lime juice")
+			("" "Crackers or fried crispy bread"))))))
+   ("prep" . ("In food processor, combine all ingredient except for the crackers/bread. Blend until smooth."
+	      "Serve with your favorite crackers or bread."))
+   ("hint" . ("While blending the ingredients add more or less water to achieve the consistency you prefer.")))
+  
+  ;; Recipe
+  (("title" . "Baked Falafel Sandwich with Jerusalem Salad")
+   ("cat" . "Sandwiches")
+   ("preptime" . "15 minutes")
+   ("baketime" . "25 minutes")
+   ("baketemp" . "375°F")
+   ("portion" . "4")
+   ("calories" . "")
+   ("ing" . ((
+	      ("title" . "Falafel")
+	      ("ing" . (
+			("1 can" "Chickpeas (drained)")
+			("1/2 cup" "Red onion, chopped")
+			("1/2 cup" "Cilantro, chopped")
+			("1 Tbs" "Ground flax meal")
+			("3 Tbs" "Water")
+			("2 cloves" "Garlic (small)")
+			("1 Tbs" "Flour")
+			("1 tsp" "Cumin")
+			("1/2 Tbs" "Sea salt"))))
+	     (
+	      ("title" . "Jerusalem Salad")
+	      ("ing" . (
+			("2 Tbs" "Tahini")
+			("5 Tbs" "Water")
+			("1/2" "Lime, juiced")
+			("1/4 tsp" "Sea salt (or to taste)")
+			("1/2" "Medium cucumber, diced")
+			("2" "Tomatoes"))))))
+    ("prep" . ("Preheat oven to 375°."
+	       "Combine 1 tablespoon of flax meal with 3 tablespoons of water. Allow mixture to soak while you are preparing ingredients for the next step."
+	       "Place the chickpeas in a food processor and coarsely chop on low. Add the flax mixture, onion, cilantro, and other herbs and seasonings and pulse into a coarse mixture. Do not over-blend!"
+	       "Shape mixture into 1-inch think patties and bake at 375° for about 25 minutes, or until crispy."
+	       "While your falafel is baking, prepare the Jerusalem salad. Mix together Tahini, water, lime juice, and salt. Add mixture to cucumber and tomatoes. Add more tahini, lime juice, and water as needed."
+	       "Assemble sandwich: Open the pita shell and add two to three falafels along one side. Fill the other side with Jerusalem salad. Enjoy!"))
+    ("hint" . ("")))
 
-;; Author: Nicholas M. Van Horn <vanhorn.nm@gmail.com>
-;; Keywords: recipes cookbook scheme chicken
-;; Version: 1.0
+  ;; Recipe
+  (("title" . "Vegan Nut Loaf")
+   ("cat" . "Nut and lentil based")
+   ("preptime" . "30 minutes")
+   ("baketime" . "60 minutes")
+   ("baketemp" . "375°F")
+   ("portion" . "6")
+   ("calories" . "")
+   ("ing" . ((("title" . "")
+	      ("ing" . (
+			("2 cups" "Nuts, mix of choice")
+			("1" "Onion, chopped")
+			("3" "Garlic cloves, pressed")
+			("6 oz" "Mushrooms, finely chopped")
+			("3 Tbs" "Flat-leaf parsley, chopped")
+			("2 Tbs" "Fresh herbs (sage, rosemary, thyme")
+			("1 1/2 cups" "Brown rice")
+			("4 Tbs" "Flax meal, ground")
+			("12 Tbs" "Water")
+			("1 tsp" "Salt")
+			("1/2 tsp" "Pepper")
+			("" "Olive oil"))))))
+    ("prep" . ("If you don't have leftover cooked rice on hand, cook the brown rice according to the package instructions. Preheat the oven to 375°F"
+	       "Mix up flax and water and allow mixture to sit to form gelatinous, egg-like consistency. Or lightly beat eggs if using"
+	       "Place nuts on baking sheet and toast for about 8-10 minutes, until lightly browned (or roast stove top). Allow to cool and then finely chop with knife or in food processor."
+	       "Heat olive oil in pan and saute the onion and garlic until translucent. Add the mushrooms and herbs (not parsley). Cook about 5 minutes, until the mushrooms are golden. Transfer to a large bowl."
+	       "In the large bowl, combine the onion/mushroom mixture with the toasted/chopped nuts. Add parsely, 1 1/2 cups cooked rice, flax mixture (or eggs), 1 teaspoon salt, and 1/2 teaspoon freshly ground pepper. (Add more salt to taste.)"
+	       "Oil a 9-inch loaf pan, line bottom with parchment paper, and oil it again. Pour the mixture from the large bowl into the pan. Bake about 1 hour until golden brown. Let cool in pan for 20 minutes and then invert loaf and remove from pan. Serve warm."))
+    ("hint" . ("Our mixture of nuts were 3/4 cup cashews, 1/2 cup pecans, 1/2 cup Brazil, and 1/4 hazelnuts. Walnuts would be another great addition!"
+	       "Most vegetarian versions use cheese, so use if desired.")))
 
-;; This file is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 3, or (at your option)
-;; any later version.
+  ;; Recipe
+  (("title" . "Vegan Spicy Creamy Kale Pasta")
+   ("cat" . "Pastas")
+   ("preptime" . "45 minutes")
+   ("baketime" . "")
+   ("baketemp" . "")
+   ("portion" . "4")
+   ("calories" . "")
+   ("ing" . ((("title" . "")
+	      ("ing" . (
+			("15 oz" "Penne pasta")
+			("1 1/2 cups" "Cashews")
+			("1" "Onion, chopped")
+			("1" "Bunch of kale")
+			("2 Tbs" "Nutritional yeast")
+			("1/2 cup" "Non-dairy milk (unsweetened)")
+			("1 tsp" "Paprika")
+			("1-2 tsp" "Chile powder")
+			("1 tsp" "Red pepper flakes")
+			("1-2" "Garlic cloves, pressed")
+			("Dash" "Salt")
+			("" "Olive oil"))))))
+   ("prep" . ("Cook pasta according to package directions."
+	      "In a large pan, warm a few tablespoons of olive oil. Toss in kale and saut\'{e} until kale has cooked down completely."
+	      "In a blender, add cashews, nutritional yeast, spices, and milk. Blend until you have a creamy consistency, adding more milk or water if too thick."
+	      "Drain pasta. Add cooked kale mixture to pasta pot and toss with cream sauce. Sprinkle with a dash of chile powder for some color!"))
+   ("hint" . ("Optionally leave hint blank")))
 
-;; This file is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-;; GNU General Public License for more details.
+  ;; Recipe
+  (("title" . "Split Pea Soup")
+   ("cat" . "Soups")
+   ("preptime" . "45 minutes")
+   ("baketime" . "")
+   ("baketemp" . "")
+   ("portion" . "6+")
+   ("calories" . "")
+   ("ing" . ((("title" . "")
+	      ("ing" . (
+			("3" "Celery ribs")
+			("3" "Carrots, diced")
+			("1" "Onion, large")
+			("1 lb" "Dried split peas")
+			("3" "Potatoes (large), diced")
+			("3" "Garlic cloves, minced")
+			("1 tsp" "Marjoram")
+			("1 tsp" "Bay leaves (cut)")
+			("1 tsp" "Salt")
+			("1/2 tsp" "Pepper")
+			("2" "14oz cans vegetable broth")
+			("2 1/2" "14oz cans water")
+			("3-4 cups" "Collard greens, chopped"))))))
+   ("prep" . ("In a large stock pot over medium-high heat, saut\'{e} celery, carrots, and onion in about 1.5 Tbs olive oil for about 5 minutes."
+	      "Add split peas and saut\'{e} a bit longer."
+	      "Add potatoes and saut\'{e} a bit longer."
+	      "Add all spices, broth, and water."
+	      "Bring to a boil then reduce heat to low and simmer covered for about 25-30 minutes, or until split peas become tender."
+	      "Add collard greens and simmer for about 10 minutes longer, or until greens are tender. Add additional salt and pepper to taste."))
+   ("hint" . ("Use a single whole bay leaf instead of cut bay leaves. You can then remove the leaf after the soup is prepared. This helps to avoid the hard texture of bay leaves, which never soften well.")))
 
-;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs; see the file COPYING. If not, write to
-;; the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-;; Boston, MA 02111-1307, USA. (or visit http://www.gnu.org/licenses/)
-;;
+  ;; Recipe
+  (("title" . "Energy Bites")
+   ("cat" . "Snacks")
+   ("preptime" . "5 minutes")
+   ("baketime" . "")
+   ("baketemp" . "")
+   ("portion" . "3-4")
+   ("calories" . "")
+   ("ing" . ((("title" . "")
+	      ("ing" . (
+			("1/2 cup" "Creamy almond butter")
+			("1/6 cup" "Honey")
+			("1 cup" "Coconut flakes")
+			("1/4 cup" "Ground flax meal")
+			("1 tsp" "Vanilla")
+			("3/4 cup" "Dark chocolate chunks"))))))
+   ("prep" . ("In medium bowl, mix all ingredients together with a spoon until well blended. Chill in the fridge for 30 minutes. Roll into small balls. Store in an airtight container (in the fridge) for up to one week."))
+   ("hint" . ("")))
 
-;;; Commentary:
+  ;; Recipe
+  (("title" . "Quinoa with Roasted Brussels Sprouts")
+   ("cat" . "One-bowl")
+   ("preptime" . "30 minutes")
+   ("baketime" . "")
+   ("baketemp" . "")
+   ("portion" . "5-6")
+   ("calories" . "")
+   ("ing" . ((("title" . "Quinoa")
+	      ("ing" . (
+			("1 1/2 cups" "Quinoa")
+			("3 cups" "Water")
+			("1/2 tsp" "Salt (or to taste)"))))
+	     (("title" . "Brussels Sprouts Mix")
+	      ("ing" . (
+			("1" "Red onion, chopped")
+			("1 bag" "Brussels sprouts (24oz), halved (or quartered)")
+			("4 Tbs" "Olive oil (or butter subst)")
+			("3-4 Tbs" "Balsamic vinegar")
+			("" "Sea salt, to taste")
+			("1-2" "Garlic cloves, minced")
+			("2 tsp" "Dried dill"))))
+	     (("title" . "Topping")
+	      ("ing" . (
+			("2 Tbs" "Fresh Italian parsley, chopped")
+			("1/4" "Roasted almonds")
+			("" "Sea salt, to taste")
+			("" "Black pepper, to taste"))))))
+   ("prep" . ("Add the quinoa and water to a pot and season with sea salt, to taste. Cover, bring to a boil, and cook the quinoa on low until the water is absorbed and the quinoa can be fluffed with a fork (about 15 minutes)."
+	      "Saute the Brussels and onion using olive oil and/or butter substitute. Add in seasoning: salt, pepper, garlic, and dill. Add balsamic towards the end of cook time."
+	      "Then add in the fluffed quinoa. Season to taste, adding in more oil, butter substitute, balsamic, or salt to taste. Top with parsley and almonds."))
+   ("hint" . ("")))
 
-;;; This program creates a LaTeX file which, when compiled using
-;;; standard LaTeX tools (and with the proper style files, etc.), will
-;;; create a pleasing pdf cookbook containing the recipes found in the
-;;; accompanying "recipes.scm" file.
+  ;; Recipe
+  (("title" . "Asian Cucumber Thai Salad")
+   ("cat" . "Salads")
+   ("preptime" . "20 minutes")
+   ("baketime" . "")
+   ("baketemp" . "")
+   ("portion" . "4")
+   ("calories" . "")
+   ("ing" . ((("title" . "")
+	      ("ing" . (
+			("1/3 cup" "White vinegar")
+			("1/3 cup" "White sugar")
+			("1/2 tsp" "Ground coriander")
+			("1/2 tsp" "Red pepper flakes")
+			("1/2 tsp" "Salt")
+			("2 lbs" "Cucumber, halved, seeded, and sliced")
+			("1 Tbs" "Fish sauce")
+			("1/2 cup" "Red onion, finely chopped")
+			("2" "Roma tomatoes, chopped")
+			("2 Tbs" "Fresh cilantro, chopped")
+			("1 Tbs" "Fresh mint, chopped")
+			("1/4 cup" "Roasted peanuts, chopped")
+			("" "Fresh mint sprigs (optional)"))))))
+   ("prep" . ("Whisk together the vinegar, sugar, coriander, red pepper flakes, and salt in a salad bowl until the sugar is dissolved. Stir in the cucumbers, onion, tomatoes, cilantro, and chopped mint, and toss with dressing. Cover and refridgerate for 1 hour to blend the flavors."
+	      "Before serving, toss again with chopped peanuts, and garnish with sprigs of fresh mint"))
+   ("hint" . ("")))
 
-;;; ----------------------------------------
+  ;; Recipe
+  (("title" . "Roasted Cauliflower Salad")
+   ("cat" . "Salads")
+   ("preptime" . "30 minutes")
+   ("baketime" . "15")
+   ("baketemp" . "400°F")
+   ("portion" . "5-6")
+   ("calories" . "")
+   ("ing" . ((("title" . "Salad")
+	      ("ing" . (
+			("1" "Head of cauliflower")
+			("3/4" "Red bell pepper")
+			("1/2" "Onion, sliced")
+			("" "Italian flat leaf parsley")
+			("" "Kalamata or green olives")
+			("" "Olive oil"))))
+	     (("title" . "Dressing")
+	      ("ing" . (
+			("2-3 Tbs" "Olive oil")
+			("1 Tbs" "Red wine vinegar (+ to taste)")
+			("Touch" "Dijon mustard")
+			("1" "Garlic clove, pressed")
+			("Pinch" "Salt"))))))
+   ("prep" . ("Chop cauliflower into small/medium pieces. Toss cauliflower and onion in about 1 Tbs of olive oil. Spread out in a metal pan and sprinkle kosher salt over top. Divide bell pepper into 3 sections, and lay sections in pan, skin side up. Roast at 400° until cauliflower is soft but al dente and browned on edges (Takes about 15 minutes. Follow up by broiling for a few minutes, but watch that mix doesn't burn.) "
+	      "Meanwhile, slice/dice kalamata or green olives. Finely chop parsley. Mix up dressing ingredients."
+	      "Once veggies are done roasting, remove from oven. Peel skin off bell pepper sections and chop into thin slices. Combine cauliflower, bell pepper, and onion. Add olives and parsley. Pour dressing over top and toss. Add salt and more red wine vinegar to taste."))
+   ("hint" . ("")))
 
-(require-extension srfi-13)
-(require-extension s)
-(require-extension args)
-
-;;; Load the recipe database. This creates a list called "recipes"
-(load "recipes.scm")
-
-(define (unique mylist)
-      (cond
-       ((null? mylist) '())
-       ((member (car mylist) (cdr mylist)) (unique (cdr mylist)))
-       (else (cons (car mylist) (unique (cdr mylist))))))
-
-;;; Given an valid recipe alist key ("cat", "title", etc.) and a
-;;; recipe database, this will return a list of unique alist values
-;;; matching that key name. e.g., (unique-values "cat" recipes)
-(define (unique-values key mylist)
-  (unique (map (lambda (x) (cdr (assoc key x))) mylist)))
-
-;;; For a given recipe category cat, return all recipes of that type
-;;; in mylist.
-(define (filter-by-cat cat mylist)
-  (cond ((null? mylist) '())
-	(else
-	 (let ((currcat (cdr (assoc "cat" (car mylist)))))
-	   (if (string=? (string-downcase cat) (string-downcase currcat))
-	       (cons (car mylist) (filter-by-cat cat (cdr mylist)))
-	       (filter-by-cat cat (cdr mylist)))))))
-
-;;; Pretty-print preparation instructions
-(define (print-prep myrecipe)
-  (let ((prep (cdr (assoc "prep" myrecipe))))
-    (for-each print prep)))
-
-;;; Pretty-print ingredient list
-(define (print-ing myrecipe)
-  (let ((ing (cdr (assoc "ing" myrecipe))))
-    (print "")
-    (for-each (lambda (x)
-		(let ((mytitle (cdr (assoc "title" x))))
-		  (if (not (s-blank? mytitle))
-		      (display (format "\n~A\n\n" mytitle)))
-		  (for-each (lambda (y)
-			      (display (format "~A\t~A\n"
-					       (car y)
-					       (cadr y))))
-			    (cdr (assoc "ing" x)))))
-	      ing)))
-
-;;; This is just a helper function. Given a list of strings, this
-;;; prints strings one-per-line with a unique numer at the
-;;; beginning. Essentially this just pretty-prints lists with
-;;; numbering. 
-(define (numbered-list mylist)
-  (let ((count 1))
-    (for-each
-     (lambda (x)
-       (print (format "(~A) ~A" count x))
-       (set! count (+ count 1)))
-     mylist)))
-
-;;; Given a list of recipes and a number "num", this returns the
-;;; num-th recipe from the list
-(define (get-recipe myrecipes num)
-  (if (> num (length myrecipes))
-      (print "Too large")
-      (begin
-	(define (recipe-by-num mylist counter)
-	  (if (eq? counter num) (car mylist)
-	      (recipe-by-num (cdr mylist) (+ counter 1))))
-	(recipe-by-num myrecipes 1))))
-
-;;; Find recipe by keywords
-(define (recipe-by-keyword keyword myrecipes)
-  (define (match-title mykeyword mytitles)
-    (cond ((null? mytitles) '())
-	  (else
-	   (if (s-contains? mykeyword (cdr (assoc "title" (car mytitles))) #t)
-	       (cons (car mytitles) (match-title mykeyword (cdr mytitles)))
-	       (match-title mykeyword (cdr mytitles))))))
-  (let ((all-matches (match-title keyword myrecipes)))
-    (if (equal? 1 (length all-matches))
-	(car all-matches)
-	(let ((matching-titles (unique-values "title"  all-matches)))
-	  (numbered-list matching-titles)
-	  (display "\nChoose your intended recipe by number: ")
-	  (let ((target-recipe (string->number (read-line))))
-	    (get-recipe all-matches target-recipe))))))
-
-;;; Print latex header for cookbook
-;; (define (cookbook-header port))
-
-;;; The following list contains all defined command line options
-;;; available to the user. For example, (h help) makes all of the
-;;; following equivalent options available at runtime: -h, -help, --h,
-;;; --help. These are used by the "args" egg.
-(define opts
-  (list (args:make-option (c cookbook) #:none "Export cookbook"
-			  (export-cookbook))
-	(args:make-option (h help)   #:none "Help information"
-			  (usage))))
-
-;;; This procedure is called whenever the user specifies the help
-;;; option at runtime OR whenever an unexpected command line option or
-;;; operand is passed to this script.
-(define (usage)
- (with-output-to-port (current-error-port)
-   (lambda ()
-     (print "Usage: cookbook [options...]")
-     (newline)
-     (print (args:usage opts))
-     (print "dvr prints a recursive list of all video files")
-     (print "available in [directory]. By including the -d option,")
-     (print "dvr allows for interactive deletion of video files.")
-     (print "'Deleted' files are moved to the trash.\n")
-     (print "dvr treats collections of related files as a single unit.")
-     (print "Accompanying files (such as subtitle and info files)")
-     (print "are sent to the trash as well for a given video file.\n")
-     (print "Videos can be played (by the system default player) by")
-     (print "including the -p option. An interface will allow for")
-     (print "interactive selection for choosing videos to watch.\n")
-     (print "Example 1: dvr ~/Videos")
-     (print "Example 2: dvr ~/Videos -p")
-     (print "Example 3: dvr ~/Videos/television -d\n")
-     (print "Report bugs to vanhorn.nm at gmail.")))
- (exit 1))
-
-
-
-;;; This gets things done. If you run this with no command line
-;;; options, your available files are printed to the screen. Including
-;;; options opens up other possibilities.
-(receive (options operands)
-    (args:parse (command-line-arguments) opts)
-  (handle-exceptions exn (usage) (main)))
+  ))
