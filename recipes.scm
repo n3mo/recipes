@@ -127,18 +127,66 @@
 ;;; opened already, and closed by another procedure later
 (define (cookbook-header header-file-path outport)
   (let ((header (read-lines header-file-path)))
-    (for-each (lambda (x) (write-line x outport)) header)))
+    (for-each (lambda (x) (write-line x outport)) header)
+    (write-line "" outport)))
 
 ;;; Write latex footer for cookbook to port. outport is assumed to be
 ;;; opened already, and closed by another procedure later
 (define (cookbook-footer footer-file-path outport)
   (let ((footer (read-lines footer-file-path)))
-    (for-each (lambda (x) (write-line x outport)) footer)))
+    (for-each (lambda (x) (write-line x outport)) footer)
+    (write-line "" outport)))
+
+;;; This turns all ingredient lists into an appropriate latex table
+;;; and write the result to outport
+(define (ing-to-latex myrecipe outport)
+  (define (ing-to-table mying outport)
+    (cond ((null? mying) '())
+	  ((> (length (cdr mying)) 0)
+	   (begin (write-line (sprintf "\t~A & ~A \\\\"
+				       (car (car mying))
+				       (cadr (car mying)))
+			      outport)
+		  (ing-to-table (cdr mying) outport)))
+	  (else
+	   (write-line (sprintf "\t~A & ~A"
+				(car (car mying))
+				(cadr (car mying)))
+		       outport)
+	   (ing-to-table (cdr mying) outport))))
+  (write-line "\\ingredients" outport)
+  (write-line "{" outport)
+  (for-each
+   (lambda (ing)
+     (if (not (s-blank? (cdr (assoc "title" ing))))
+	 (write-line (sprintf "\t\\multicolumn{2}{c}{\\textbf{~A}} \\\\"
+			      (cdr (assoc "title" ing)))
+		     outport))
+     (ing-to-table (cdr (assoc "ing" ing)) outport))
+   (cdr (assoc "ing" myrecipe)))
+  (write-line "}\n" outport))
+
+;;; This converts the recipe preparation steps to latex
+(define (prep-to-latex myrecipe outport)
+  (let ((prep (cdr (assoc "prep" myrecipe))))
+    (write-line "\\preparation\n{" outport)
+    (for-each
+     (lambda (step)
+       (write-line (sprintf "\t\\step ~A" step) outport))
+     prep)
+    (write-line "}\n" outport)))
+
+;;; This converts the recipe hint (if any) to latex
+(define (hint-to-latex myrecipe outport)
+  (if (not (s-blank? (cadr (assoc "hint" myrecipe))))
+      (write-line (sprintf "\\hint\n{\n~A\n}\n"
+			   (cadr (assoc "hint" myrecipe))) outport)))
 
 ;;; This converts an individual recipe to appropriate latex source,
 ;;; and writes the result to file. outport is assumed to be opened
 ;;; already, and closed by another procedure later
 (define (cookbook-recipe myrecipe outport)
+  (write-line "\\newpage" outport)
   (write-line "\\begin{recipe}" outport)
   (write-line "[ %" outport)
   (if (s-blank? (cdr (assoc "preptime" myrecipe)))
@@ -148,7 +196,30 @@
   (if (s-blank? (cdr (assoc "baketime" myrecipe)))
       (write-line " bakingtime," outport)
       (write-line (sprintf " bakingtime = {~A},"
-			   (cdr (assoc "baketime" myrecipe))) outport)))
+			   (cdr (assoc "baketime" myrecipe)))
+		  outport))
+  (if (s-blank? (cdr (assoc "baketemp" myrecipe)))
+      (write-line " bakingtemperature," outport)
+      (write-line (sprintf " bakingtemperature = {~A},"
+			   (cdr (assoc "baketemp" myrecipe)))
+		  outport))
+  (if (s-blank? (cdr (assoc "portion" myrecipe)))
+      (write-line " portion," outport)
+      (write-line (sprintf " portion = {~A},"
+			   (cdr (assoc "portion" myrecipe))) outport))
+  (if (s-blank? (cdr (assoc "calories" myrecipe)))
+      (write-line " calory," outport)
+      (write-line (sprintf " calory = {~A},"
+			   (cdr (assoc "calories" myrecipe)))
+		  outport))
+  (write-line " ]" outport)
+  (write-line (sprintf "{~A}\n" (cdr (assoc "title" myrecipe))) outport)
+  ;; Now we format all ingredient lists
+  (ing-to-latex myrecipe outport)
+  (prep-to-latex myrecipe outport)
+  (hint-to-latex myrecipe outport)
+  (write-line "\\end{recipe}\n" outport)
+  )
 
 ;;; Convert all recipes in a given list into individual latex code
 ;;; blocks, suitable for inclusion between the latex header and footer
